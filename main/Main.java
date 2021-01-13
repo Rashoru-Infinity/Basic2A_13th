@@ -16,12 +16,15 @@ public class Main {
 	private static ArrayList<ArrayList<Integer>>bfTable = new ArrayList<>();	//result of brute force search
 	private static final String OUTFILE1 = "./greedy.csv";
 	private static final String OUTFILE2 = "./brute_force.csv";
+	private static final String OUTFILE3 = "./check_theorem.txt";
 	public static void main(String[] args) throws IOException {
 		HashSet<Integer> coinSet = new HashSet<Integer>();
 		File file1 = new File(OUTFILE1);
 		FileWriter fw1 = new FileWriter(file1);
 		File file2 = new File(OUTFILE2);
 		FileWriter fw2 = new FileWriter(file2);
+		File file3 = new File(OUTFILE3);
+		FileWriter fw3 = new FileWriter(file3);
 		coinSet.add(1);
 		coinSet.add(5);
 		coinSet.add(50);
@@ -73,14 +76,24 @@ public class Main {
 			}
 			fw2.write("\n");
 		}
+		/*
+		for (int x = 0;x < bfTable.size();++x) {
+			ArrayList<Integer> gdList = greedyTable.get(x);
+			ArrayList<Integer> bfList = bfTable.get(x);
+			for (int a = 0;a < gdList.size();++a) {
+				fw.write("Meet Theorem : " + 1 + gdList.get(a) < )
+			}
+		}
+		*/
 		fw1.close();
 		fw2.close();
-		System.out.println("\n\nInstruction for csv file format is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
+		fw3.close();
+		System.out.println("\n\nInstruction for result file format is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
 	}
 	private static int greedy(int a, int x) {
 		int coinCount = 0;
 		int remain = a + 50;
-		System.out.println("<Greedy Algorithm>" + "a = " + remain + ",x = " + x);
+		System.out.println("<Greedy Algorithm>" + "a = " + (remain - 50) + ",x = " + x);
 		for (int i : coinList) {
 			System.out.println(i + " x " + remain / i);
 			coinCount += remain / i;
@@ -92,7 +105,7 @@ public class Main {
 	
 	private static void bruteForceHandler(int a, int x) {
 		int remain = a + 50;
-		System.out.println("<Brute Force Search>" + "a = " + remain + ",x = " + x);
+		System.out.println("<Brute Force Search>" + "a = " + (remain - 50) + ",x = " + x);
 		bruteForce(null, 0, remain, 0);
 		for (Point p : bestCombination) {
 			System.out.println(p.x + " x " + p.y);
