@@ -57,7 +57,7 @@ public class Main {
 		fw1.write("\n");
 		for (int x = 0;x < greedyTable.size();++x) {
 			ArrayList<Integer> list = greedyTable.get(x);
-			fw1.write(x + ",");
+			fw1.write((x + 6) + ",");
 			for (Integer i : list) {
 				fw1.write(i + ",");
 			}
@@ -70,7 +70,7 @@ public class Main {
 		fw2.write("\n");
 		for (int x = 0;x < bfTable.size();++x) {
 			ArrayList<Integer> list = bfTable.get(x);
-			fw2.write(x + ",");
+			fw2.write((x + 6) + ",");
 			for (Integer i : list) {
 				fw2.write(i + ",");
 			}
