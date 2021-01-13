@@ -2,7 +2,6 @@ package main;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Collections;
 import java.awt.Point;
 
@@ -12,22 +11,27 @@ public class Main {
 	private static int minCoinCount;
 	public static void main(String[] args) {
 		HashSet<Integer> coinSet = new HashSet<Integer>();
-		int amount;
-		int original;
-		Scanner sc = new Scanner(System.in);
 		coinSet.add(1);
 		coinSet.add(5);
 		coinSet.add(50);
-		original = sc.nextInt();
-		coinSet.add(original);
-		amount = sc.nextInt();
-		minCoinCount = amount;
-		sc.close();
-		coinList = new ArrayList<>(coinSet);
-		Collections.sort(coinList);
-		Collections.reverse(coinList);
-		greedy(amount - 50, original);
-		bruteForceHandler(amount - 50, original);
+		for (int x = 6;x < 50;++x) {
+			if (x != 6) {
+				coinSet.remove(x - 1);
+			}
+			coinSet.add(x);
+			coinList = new ArrayList<>(coinSet);
+			Collections.sort(coinList);
+			Collections.reverse(coinList);
+			for (int a = 1;a < 50;++a) {
+				minCoinCount = a + 50;
+				if (bestCombination != null) {
+					bestCombination.clear();
+				}
+				greedy(a, x);
+				bruteForceHandler(a, x);
+				
+			}
+		}
 	}
 	private static void greedy(int a, int x) {
 		int coinCount = 0;
@@ -64,7 +68,7 @@ public class Main {
 			coinCount += remain;
 			if (coinCount < minCoinCount) {
 				minCoinCount = coinCount;
-				bestCombination = nextCombination;
+				bestCombination = (ArrayList<Point>) nextCombination.clone();
 			}
 			return ;
 		}
