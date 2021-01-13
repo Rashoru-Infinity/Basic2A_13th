@@ -13,32 +13,38 @@ public class Main {
 	public static void main(String[] args) {
 		HashSet<Integer> coinSet = new HashSet<Integer>();
 		int amount;
-		int remain;
-		int coinCount = 0;
+		int original;
 		Scanner sc = new Scanner(System.in);
-		int coin;
 		coinSet.add(1);
 		coinSet.add(5);
 		coinSet.add(50);
-		while ((coin = sc.nextInt()) > 0) {
-			coinSet.add(coin);
-		}
+		original = sc.nextInt();
+		coinSet.add(original);
 		amount = sc.nextInt();
-		remain = amount;
 		minCoinCount = amount;
 		sc.close();
 		coinList = new ArrayList<>(coinSet);
 		Collections.sort(coinList);
 		Collections.reverse(coinList);
-		System.out.println("<Greedy Algorithm>");
+		greedy(amount - 50, original);
+		bruteForceHandler(amount - 50, original);
+	}
+	private static void greedy(int a, int x) {
+		int coinCount = 0;
+		int remain = a + 50;
+		System.out.println("<Greedy Algorithm>" + "a = " + remain + ",x = " + x);
 		for (int i : coinList) {
-			System.out.println(i + " x " +remain / i);
+			System.out.println(i + " x " + remain / i);
 			coinCount += remain / i;
 			remain %= i;
 		}
 		System.out.println(coinCount + "coins");
-		System.out.println("<Brute Force Search>");
-		bruteForce(null, 0, amount, 0);
+	}
+	
+	private static void bruteForceHandler(int a, int x) {
+		int remain = a + 50;
+		System.out.println("<Brute Force Search>" + "a = " + remain + ",x = " + x);
+		bruteForce(null, 0, remain, 0);
 		for (Point p : bestCombination) {
 			System.out.println(p.x + " x " + p.y);
 		}
