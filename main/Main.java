@@ -43,7 +43,7 @@ public class Main {
 				if (bestCombination != null) {
 					bestCombination.clear();
 				}
-				gdList.add(greedy(a, x));
+				gdList.add(greedyHandler(a, x));
 				bruteForceHandler(a, x);
 				bfList.add(minCoinCount);
 			}
@@ -90,16 +90,22 @@ public class Main {
 		fw3.close();
 		System.out.println("\n\nInstruction for result file format is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
 	}
-	private static int greedy(int a, int x) {
-		int coinCount = 0;
+	private static int greedyHandler(int a, int x) {
+		int coinCount;
 		int remain = a + 50;
 		System.out.println("<Greedy Algorithm>" + "a = " + (remain - 50) + ",x = " + x);
+		coinCount = greedy(remain, x);
+		System.out.println(coinCount + "coins");
+		return coinCount;
+	}
+	private static int greedy(int a, int x) {
+		int coinCount = 0;
+		int remain = a;
 		for (int i : coinList) {
 			System.out.println(i + " x " + remain / i);
 			coinCount += remain / i;
 			remain %= i;
 		}
-		System.out.println(coinCount + "coins");
 		return coinCount;
 	}
 	
