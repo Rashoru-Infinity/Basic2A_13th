@@ -17,6 +17,7 @@ public class Main {
 	private static final String OUTFILE1 = "./greedy.csv";
 	private static final String OUTFILE2 = "./brute_force.csv";
 	private static final String OUTFILE3 = "./check_theorem.txt";
+	private static final String OUTFILE4 = "./combination.txt";
 	public static void main(String[] args) throws IOException {
 		HashSet<Integer> coinSet = new HashSet<Integer>();
 		File file1 = new File(OUTFILE1);
@@ -25,6 +26,8 @@ public class Main {
 		FileWriter fw2 = new FileWriter(file2);
 		File file3 = new File(OUTFILE3);
 		FileWriter fw3 = new FileWriter(file3);
+		File file4 = new File(OUTFILE4);
+		FileWriter fw4 = new FileWriter(file4);
 		coinSet.add(1);
 		coinSet.add(5);
 		coinSet.add(50);
@@ -40,8 +43,8 @@ public class Main {
 				if (bestCombination != null) {
 					bestCombination.clear();
 				}
-				gdList.add(greedyHandler(a, x));
-				bruteForceHandler(a, x);
+				gdList.add(greedyHandler(a, x, fw4));
+				bruteForceHandler(a, x, fw4);
 				bfList.add(minCoinCount);
 			}
 			greedyTable.add(gdList);
@@ -114,18 +117,19 @@ public class Main {
 		fw1.close();
 		fw2.close();
 		fw3.close();
-		System.out.println("\n\nInstruction for result file format is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
+		fw4.close();
+		System.out.println("Instruction for result file format is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
 	}
-	private static int greedyHandler(int a, int x) {
+	private static int greedyHandler(int a, int x, FileWriter fw) throws IOException {
 		ArrayList<Point>combination = new ArrayList<>();
 		int coinCount;
 		int remain = a + 50;
-		System.out.println("<Greedy Algorithm>" + "a = " + (remain - 50) + ",x = " + x);
+		fw.write("<Greedy Algorithm>" + "a = " + (remain - 50) + ",x = " + x + "\n");
 		coinCount = greedy(remain, x, combination);
 		for (Point p : combination) {
-			System.out.println(p.x + " x " + p.y);
+			fw.write(p.x + " x " + p.y + "\n");
 		}
-		System.out.println(coinCount + "coins");
+		fw.write(coinCount + "coins\n");
 		return coinCount;
 	}
 	private static int greedy(int a, int x, ArrayList<Point>combination) {
@@ -140,15 +144,14 @@ public class Main {
 		}
 		return coinCount;
 	}
-	
-	private static void bruteForceHandler(int a, int x) {
+	private static void bruteForceHandler(int a, int x, FileWriter fw) throws IOException {
 		int remain = a + 50;
-		System.out.println("<Brute Force Search>" + "a = " + (remain - 50) + ",x = " + x);
+		fw.write("<Brute Force Search>" + "a = " + (remain - 50) + ",x = " + x + "\n");
 		bruteForce(null, 0, remain, 0);
 		for (Point p : bestCombination) {
-			System.out.println(p.x + " x " + p.y);
+			fw.write(p.x + " x " + p.y + "\n");
 		}
-		System.out.println(minCoinCount + "coins");
+		fw.write(minCoinCount + "coins\n");
 	}
 	@SuppressWarnings("unchecked")
 	private static void bruteForce(ArrayList<Point> combination, int coinListIndex, int remain, int coinCount) {
