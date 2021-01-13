@@ -31,9 +31,6 @@ public class Main {
 		for (int x = 6;x < 50;++x) {
 			ArrayList<Integer> gdList = new ArrayList<>();
 			ArrayList<Integer> bfList = new ArrayList<>();
-			if (x != 6) {
-				coinSet.remove(x - 1);
-			}
 			coinSet.add(x);
 			coinList = new ArrayList<>(coinSet);
 			Collections.sort(coinList);
@@ -49,6 +46,9 @@ public class Main {
 			}
 			greedyTable.add(gdList);
 			bfTable.add(bfList);
+			if (x != 10) {
+				coinSet.remove(x);
+			}
 		}
 		fw1.write("x/a,");
 		for (int a = 1;a < 50;++a) {
@@ -76,33 +76,65 @@ public class Main {
 			}
 			fw2.write("\n");
 		}
-		/*
 		for (int x = 0;x < bfTable.size();++x) {
 			ArrayList<Integer> gdList = greedyTable.get(x);
 			ArrayList<Integer> bfList = bfTable.get(x);
 			for (int a = 0;a < gdList.size();++a) {
-				fw.write("Meet Theorem : " + 1 + gdList.get(a) < )
+				coinSet.add(x + 6);
+				coinList = new ArrayList<>(coinSet);
+				if (x + 6 != 10) {
+					coinSet.remove(x + 6);
+				}
+				Collections.sort(coinList);
+				Collections.reverse(coinList);
+				int next = coinList.get(coinList.indexOf(x + 6) + 1);
+				int prev = coinList.get(coinList.indexOf(x + 6) - 1);
+				boolean meetCondition = false;
+				int p1 = (x + 6) / next;
+				if ((x + 6) % next != 0) {
+					++p1;
+				}
+				int p2 = prev / (x + 6);
+				if (prev % (x + 6) != 0) {
+					++p2;
+				}
+				meetCondition = 1 + greedy(p1 * next - (x + 6), x + 6, null) <= p1
+						&& 1 + greedy(p2 * (x + 6) - prev, prev, null) <= p2;
+				fw3.write("(x, a) = (" + (x + 6) + ", " + (a + 1) + ") : ");
+				fw3.write("greedy = " + gdList.get(a) + ", brute_force = " + bfList.get(a));
+				if ((meetCondition && gdList.get(a) <= bfList.get(a))) {
+					fw3.write(" [OK]\n");
+				}else if (!meetCondition) {
+					fw3.write(" [Protected]\n");
+				}else {
+					fw3.write(" [KO]\n");
+				}
 			}
 		}
-		*/
 		fw1.close();
 		fw2.close();
 		fw3.close();
 		System.out.println("\n\nInstruction for result file format is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
 	}
 	private static int greedyHandler(int a, int x) {
+		ArrayList<Point>combination = new ArrayList<>();
 		int coinCount;
 		int remain = a + 50;
 		System.out.println("<Greedy Algorithm>" + "a = " + (remain - 50) + ",x = " + x);
-		coinCount = greedy(remain, x);
+		coinCount = greedy(remain, x, combination);
+		for (Point p : combination) {
+			System.out.println(p.x + " x " + p.y);
+		}
 		System.out.println(coinCount + "coins");
 		return coinCount;
 	}
-	private static int greedy(int a, int x) {
+	private static int greedy(int a, int x, ArrayList<Point>combination) {
 		int coinCount = 0;
 		int remain = a;
 		for (int i : coinList) {
-			System.out.println(i + " x " + remain / i);
+			if (combination != null ) {
+				combination.add(new Point(i, remain / i));
+			}
 			coinCount += remain / i;
 			remain %= i;
 		}
