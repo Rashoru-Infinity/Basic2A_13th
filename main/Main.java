@@ -118,7 +118,7 @@ public class Main {
 		fw2.close();
 		fw3.close();
 		fw4.close();
-		System.out.println("Instruction for this program is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
+		System.out.println("Instructions for this program is as follows.\nhttps://github.com/Rashoru-Infinity/Basic2A_13th");
 	}
 	private static int greedyHandler(int a, int x, FileWriter fw) throws IOException {
 		ArrayList<Point>combination = new ArrayList<>();
